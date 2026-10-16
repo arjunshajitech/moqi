@@ -42,7 +42,7 @@ Then:
 
 1. Open <http://localhost:8080/?room=demo> in **two tabs**.
 2. Type a name in each tab and click **Join**.
-3. Use the buttons at the bottom: 🎤 mute · 📷 camera · 🖥️ share screen · 🔗 copy invite link · ☎️ leave.
+3. Use the buttons at the bottom: **Mic**, **Camera**, **Share**, **Invite** (copies the room link) and **Leave**.
 
 A third tab in the same room is told *"room is full"*.
 
