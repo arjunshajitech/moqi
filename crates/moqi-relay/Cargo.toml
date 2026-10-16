@@ -1,0 +1,22 @@
+[package]
+name = "moqi-relay"
+description = "MoQ Transport relay over WebTransport (HTTP/3)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+moqi-proto = { path = "../moqi-proto" }
+anyhow = "1"
+axum = "0.8"
+bytes.workspace = true
+thiserror.workspace = true
+clap = { version = "4", features = ["derive", "env"] }
+rcgen = "0.14"
+sha2 = "0.10"
+time = "0.3"
+tokio.workspace = true
+tower-http = { version = "0.7", features = ["fs", "cors"] }
+tracing.workspace = true
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+wtransport = { version = "0.7", features = ["quinn"] }

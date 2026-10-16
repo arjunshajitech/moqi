@@ -1,0 +1,13 @@
+{
+  "name": "moqi",
+  "private": true,
+  "type": "module",
+  "description": "Browser client and tests for the MoQT relay",
+  "scripts": {
+    "test:interop": "cargo run -q -p moqi-proto --example vectors | node web/test/interop.mjs",
+    "test:e2e": "node web/test/e2e.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.0.0"
+  }
+}

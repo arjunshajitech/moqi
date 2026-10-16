@@ -1,0 +1,31 @@
+# Rust build output
+/target
+
+# Node (only used for tests)
+/node_modules
+npm-debug.log*
+
+# Test output (e.g. SCREENSHOTS=test-output npm run test:e2e)
+/test-output
+
+# Logs
+*.log
+
+# Local TLS certificates / keys (pass with --cert / --key; never commit)
+*.pem
+*.key
+*.crt
+
+# Environment files
+.env
+.env.*
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

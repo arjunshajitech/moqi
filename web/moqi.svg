@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <title>moqi</title>
+  <path d="M78 14c6 2 10 6 12 12" fill="none" stroke="#2b1a0e" stroke-width="4" stroke-linecap="round"/>
+  <path d="M82 4c10 3 17 10 20 20" fill="none" stroke="#2b1a0e" stroke-width="4" stroke-linecap="round"/>
+  <path d="M60 30 L70 14" stroke="#2b1a0e" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="71" cy="12" r="6" fill="#ffd43b" stroke="#2b1a0e" stroke-width="4"/>
+  <path d="M14 74c0-27 20-46 46-46s46 19 46 46-18 38-46 38-46-11-46-38Z" fill="#ff8a1f" stroke="#2b1a0e" stroke-width="5"/>
+  <path d="M28 62c4-14 15-22 28-24" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="45" cy="70" rx="8" ry="10" fill="#2b1a0e"/>
+  <ellipse cx="77" cy="70" rx="8" ry="10" fill="#2b1a0e"/>
+  <circle cx="48" cy="66" r="3" fill="#fff"/>
+  <circle cx="80" cy="66" r="3" fill="#fff"/>
+  <ellipse cx="33" cy="84" rx="7" ry="4.5" fill="#ff9fb0"/>
+  <ellipse cx="89" cy="84" rx="7" ry="4.5" fill="#ff9fb0"/>
+  <path d="M52 86q9 9 18 0" fill="none" stroke="#2b1a0e" stroke-width="4.5" stroke-linecap="round"/>
+</svg>

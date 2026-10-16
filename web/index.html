@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>moqi</title>
+    <link rel="icon" href="moqi.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="js/app.js"></script>
+  </head>
+  <body>
+    <!-- Reusable mascot: an orange blob with a little antenna beaming QUIC packets. -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="mascot" viewBox="0 0 120 120">
+          <path class="m-wave" d="M78 14c6 2 10 6 12 12" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" />
+          <path class="m-wave m-wave2" d="M82 4c10 3 17 10 20 20" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" />
+          <path d="M60 30 L70 14" stroke="var(--ink)" stroke-width="5" stroke-linecap="round" />
+          <circle cx="71" cy="12" r="6" fill="var(--sun)" stroke="var(--ink)" stroke-width="4" />
+          <path d="M14 74c0-27 20-46 46-46s46 19 46 46-18 38-46 38-46-11-46-38Z" fill="var(--orange)" stroke="var(--ink)" stroke-width="5" />
+          <path d="M28 62c4-14 15-22 28-24" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="6" stroke-linecap="round" />
+          <ellipse cx="45" cy="70" rx="8" ry="10" fill="var(--ink)" />
+          <ellipse cx="77" cy="70" rx="8" ry="10" fill="var(--ink)" />
+          <circle cx="48" cy="66" r="3" fill="#fff" />
+          <circle cx="80" cy="66" r="3" fill="#fff" />
+          <ellipse cx="33" cy="84" rx="7" ry="4.5" fill="var(--blush)" />
+          <ellipse cx="89" cy="84" rx="7" ry="4.5" fill="var(--blush)" />
+          <path d="M52 86q9 9 18 0" fill="none" stroke="var(--ink)" stroke-width="4.5" stroke-linecap="round" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <div class="bg-deco" aria-hidden="true">
+      <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+      <span class="spark s1">✦</span><span class="spark s2">✦</span><span class="spark s3">✦</span>
+    </div>
+
+    <header class="topbar">
+      <div class="brand">
+        <svg class="logo" aria-hidden="true"><use href="#mascot" /></svg>
+        <span class="wordmark">moqi</span>
+        <span class="tag">media over QUIC</span>
+      </div>
+      <div class="status" id="status" data-state="idle">Not connected</div>
+    </header>
+
+    <main>
+      <section id="lobby" class="lobby">
+        <div class="hero">
+          <div class="mascot-wrap">
+            <svg class="mascot" aria-hidden="true"><use href="#mascot" /></svg>
+            <div class="bubble">Hi! Let's chat over QUIC ✨</div>
+          </div>
+        </div>
+        <form id="join-form" class="card">
+          <h1>Join a room</h1>
+          <p class="muted">Open this page in <b>two tabs</b> with the same room name to start a call.</p>
+          <label>
+            Your name
+            <input id="name" autocomplete="nickname" required maxlength="32" placeholder="e.g. Pumpkin" />
+          </label>
+          <label>
+            Room
+            <input id="room" required maxlength="32" pattern="[A-Za-z0-9_\-]+" title="Letters, digits, - and _" />
+          </label>
+          <details>
+            <summary>Advanced</summary>
+            <label>
+              Relay URL
+              <input id="relay" />
+            </label>
+          </details>
+          <button type="submit" class="primary" id="join-btn">Let's go! 🚀</button>
+          <p class="error" id="join-error" role="alert"></p>
+        </form>
+      </section>
+
+      <section id="call" class="call" hidden>
+        <div class="stage" id="stage">
+          <figure class="tile screen" id="remote-screen-tile" hidden>
+            <canvas id="remote-screen"></canvas>
+            <figcaption><span class="who"><span data-remote-name>Peer</span> · screen</span><span class="stats" id="remote-screen-stats"></span></figcaption>
+          </figure>
+          <figure class="tile screen" id="local-screen-tile" hidden>
+            <video id="local-screen" muted playsinline autoplay></video>
+            <figcaption><span class="who">You · screen</span><span class="stats" id="local-screen-stats"></span></figcaption>
+          </figure>
+          <figure class="tile cam" id="remote-tile">
+            <canvas id="remote-video"></canvas>
+            <div class="placeholder" id="remote-placeholder" data-waiting>
+              <svg class="mascot-mini" aria-hidden="true"><use href="#mascot" /></svg>
+              <div class="avatar" id="remote-avatar">?</div>
+              <p id="remote-waiting">Waiting for someone to join…</p>
+            </div>
+            <figcaption>
+              <span class="who"><span class="mic-dot" id="remote-mic" title="Microphone"></span><span data-remote-name>Peer</span></span>
+              <span class="stats" id="remote-video-stats"></span>
+            </figcaption>
+          </figure>
+          <figure class="tile cam self" id="local-tile">
+            <video id="local-video" muted playsinline autoplay></video>
+            <div class="placeholder" id="local-placeholder" hidden>
+              <div class="avatar me" id="local-avatar">?</div>
+            </div>
+            <figcaption>
+              <span class="who"><span class="mic-dot on" id="local-mic"></span><span id="local-name">You</span></span>
+              <span class="stats" id="local-video-stats"></span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <nav class="controls" aria-label="Call controls">
+          <button id="mic-btn" class="ctl" aria-pressed="true" title="Mute microphone">
+            <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2Z"/></svg>
+            <span>Mic</span>
+          </button>
+          <button id="cam-btn" class="ctl" aria-pressed="true" title="Turn camera off">
+            <svg viewBox="0 0 24 24"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4Z"/></svg>
+            <span>Camera</span>
+          </button>
+          <button id="screen-btn" class="ctl" aria-pressed="false" title="Share screen">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6v2H8v2h8v-2h-2v-2h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 12H4V6h16v10Zm-8-8-4 4h3v3h2v-3h3l-4-4Z"/></svg>
+            <span>Share</span>
+          </button>
+          <button id="invite-btn" class="ctl" title="Copy invite link">
+            <svg viewBox="0 0 24 24"><path d="M10.6 13.4a1 1 0 0 1 0-1.4l3-3a3 3 0 1 1 4.2 4.2l-2 2-1.4-1.4 2-2a1 1 0 1 0-1.4-1.4l-3 3a1 1 0 0 1-1.4 0Zm2.8-2.8a1 1 0 0 1 0 1.4l-3 3a3 3 0 1 1-4.2-4.2l2-2 1.4 1.4-2 2a1 1 0 1 0 1.4 1.4l3-3a1 1 0 0 1 1.4 0Z"/></svg>
+            <span>Invite</span>
+          </button>
+          <button id="leave-btn" class="ctl danger" title="Leave">
+            <svg viewBox="0 0 24 24"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .4-.23.74-.56.9a10.4 10.4 0 0 0-2.66 1.85.99.99 0 0 1-1.4 0L.29 13.08a.96.96 0 0 1 0-1.36C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.72c.18.18.29.43.29.68 0 .28-.11.53-.29.7l-2.48 2.49a.99.99 0 0 1-1.4 0 10.4 10.4 0 0 0-2.67-1.85.99.99 0 0 1-.56-.9v-3.1A15.2 15.2 0 0 0 12 9Z"/></svg>
+            <span>Leave</span>
+          </button>
+        </nav>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" hidden></div>
+  </body>
+</html>
